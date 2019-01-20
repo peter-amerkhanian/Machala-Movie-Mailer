@@ -16,8 +16,10 @@ if __name__ == "__main__":
             body = emailer.make_message(film, times, ratings)
             bodies.append(body)
     if len(bodies) >= 1:
-        if len(bodies) == 1: plural = "Movie"
-        if len(bodies) > 1: plural = "Movies"
+        if len(bodies) == 1:
+            plural = "Movie"
+        if len(bodies) > 1:
+            plural = "Movies"
         body = "\n\n***\t***\n".join(bodies)
         msg = emailer.create_email_message(emailer.from_address,
                                            emailer.to_address,
