@@ -1,0 +1,74 @@
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import json
+# All information from this module is private:
+import private_variables
+
+
+#url = "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"
+url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+movies = list(soup.findAll('div', {"class": "carteleraItem" }))
+
+
+def get_movie_info(movie):
+    # Get the movie's basic information
+    movie_info = movie.find_next('script', {"type": "application/ld+json"})
+    move_info_cleaned = movie_info.text.replace(',}', '}')
+    json_data = json.loads(move_info_cleaned, strict=False)
+    return {'title': json_data['name'], 'director': json_data['director'], "trailer": json_data['sameAs']}
+
+
+def get_show_times(movie):
+    show_types = movie.findAll('table', {"id": "horariotabla"})
+    showings = []
+    for show in show_types:
+        show_times = [json.loads(showing.text.replace(',}', '}'))['doorTime'] for showing in show.findAll('script', {"type" : "application/ld+json"})]
+        showings.append({'Language': (show.p.text).replace("Subtitulada", "English"),
+                         'Times': ", ".join(show_times)})
+    return showings
+
+
+def deal_with_year_error(api_key, title):
+    years = 1
+    for _ in range(5):
+        current_year = (datetime.now() - relativedelta(years=years)).year
+        url = f'http://www.omdbapi.com/?apikey={api_key}&t={title}&y={current_year}'
+        raw_content = requests.get(url).content
+        json_content = json.loads(raw_content)
+        if json_content.get("Error"):
+            years += 1
+        else:
+            return json_content
+    if json_content.get("Error"):
+        return None
+
+
+def get_ratings(title, api_key=private_variables.api_key):
+    """
+    args:
+        api_key - api key for accessing OMDB
+        title - a string movie title
+    return:
+        a dictionary with the imdb and rt scores for the film
+    """
+    current_year = datetime.now().year
+    url = f'http://www.omdbapi.com/?apikey={api_key}&t={title}&y={current_year}'
+    raw_content = requests.get(url).content
+    json_content = json.loads(raw_content)
+    if json_content.get("Error"):
+        json_content = deal_with_year_error(api_key, title)
+        if not json_content:
+            return {'imdb': "*No IMDB Rating Available", 'rt': "*No Rotten Tomato Score Available*"}
+    try:
+        rotten_tomatoes_rating = json_content['Ratings'][1]['Value']
+    except IndexError:
+        rotten_tomatoes_rating = "*No Rotten Tomato Score Available*"
+    current_year = (datetime.now() - relativedelta(years=1)).year
+    imdb_rating = json_content['imdbRating']
+    return {'imdb': imdb_rating, 'rt': rotten_tomatoes_rating}
+
