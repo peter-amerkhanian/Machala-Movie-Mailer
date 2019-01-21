@@ -7,7 +7,7 @@ import json
 import private_variables
 
 
-url = "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"
+url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -36,8 +36,8 @@ def deal_with_year_error(api_key, title):
     years = 1
     for _ in range(5):
         current_year = (datetime.now() - relativedelta(years=years)).year
-        url = f'http://www.omdbapi.com/?apikey={api_key}&t={title}&y={current_year}'
-        raw_content = requests.get(url).content
+        url_imdb = "http://www.omdbapi.com/?apikey={}&t={}&y={}".format(api_key, title, current_year)
+        raw_content = requests.get(url_imdb).content
         json_content = json.loads(raw_content)
         if json_content.get("Error"):
             years += 1
@@ -56,9 +56,9 @@ def get_ratings(title, api_key=private_variables.api_key):
         a dictionary with the imdb and rt scores for the film
     """
     current_year = datetime.now().year
-    url = f'http://www.omdbapi.com/?apikey={api_key}&t={title}&y={current_year}'
+    url = 'http://www.omdbapi.com/?apikey={}&t={}&y={}'.format(api_key, title, current_year)
     raw_content = requests.get(url).content
-    json_content = json.loads(raw_content)
+    json_content = json.loads(raw_content, strict=False)
     if json_content.get("Error"):
         json_content = deal_with_year_error(api_key, title)
         if not json_content:

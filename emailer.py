@@ -19,13 +19,11 @@ to_address = (
 
 def make_message(film, times, ratings):
     showtimes = "\n".join(["{}: {}".format(time['Language'], time['Times']) for time in times])
-    msg = f"""
-Title: {film['title']}
-Director: {film['director']}
-Rotten Tomato Score: {ratings['rt']}
-Trailer: {film['trailer']}
-    """
-    msg_part_2 = f"\nShow-times \n{showtimes}"
+    msg = "Title: {}\nDirector: {}\nRotten Tomato Score: {}\nTrailer: {}\n".format(film['title'],
+                                                                                   film['director'],
+                                                                                   ratings['rt'],
+                                                                                   film['trailer'])
+    msg_part_2 = "\nShow-times \n{}".format(showtimes)
     return msg+msg_part_2
 
 
