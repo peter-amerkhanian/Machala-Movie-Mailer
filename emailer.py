@@ -1,20 +1,4 @@
-from email.headerregistry import Address
 from email.message import EmailMessage
-# All information from this module is private:
-import private_variables
-
-
-from_address = (
-    Address(display_name=private_variables.from_address['User'],
-            username=private_variables.from_address['Email'],
-            domain=private_variables.from_address['Domain'])
-)
-
-to_address = (
-    Address(display_name=private_variables.to_address['User'],
-            username=private_variables.to_address['Email'],
-            domain=private_variables.to_address['Domain'])
-)
 
 
 def make_message(film, times, ratings):
