@@ -6,6 +6,7 @@ from datetime import datetime
 import private_variables
 
 if __name__ == "__main__":
+    # Create the email's body
     bodies = []
     for movie in movies:
         film = get_movie_info(movie)
@@ -15,6 +16,7 @@ if __name__ == "__main__":
         if eng:
             body = emailer.make_message(film, times, ratings)
             bodies.append(body)
+    # Check if the subject line should have Movie or Movies
     if len(bodies) >= 1:
         plural = "Movie"
         if len(bodies) > 1:

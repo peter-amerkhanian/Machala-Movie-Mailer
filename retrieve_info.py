@@ -15,7 +15,10 @@ movies = list(soup.findAll('div', {"class": "carteleraItem" }))
 
 
 def get_movie_info(movie):
-    # Get the movie's basic information
+    """
+    :param movie: piece of HTML representing a single movie
+    :return: a list of dicts containing a movie's name, director, and a link to the trailer
+    """
     movie_info = movie.find_next('script', {"type": "application/ld+json"})
     move_info_cleaned = movie_info.text.replace(',}', '}')
     json_data = json.loads(move_info_cleaned, strict=False)
@@ -23,6 +26,11 @@ def get_movie_info(movie):
 
 
 def get_show_times(movie):
+    """
+    Get the a showing's language and times
+    :param movie: piece of HTML representing a single movie
+    :return: a list of dicts containing each showing's language and times
+    """
     show_types = movie.findAll('table', {"id": "horariotabla"})
     showings = []
     for show in show_types:
@@ -33,6 +41,13 @@ def get_show_times(movie):
 
 
 def deal_with_year_error(api_key, title):
+    """
+    Helper function for get_ratings - deals with older movies
+    :param api_key: api key for accessing OMDB
+    :param title: a string movie title
+    :return: a dictionary with the imdb and rt
+    scores for the film OR None if that can't be found
+    """
     years = 1
     for _ in range(5):
         current_year = (datetime.now() - relativedelta(years=years)).year
@@ -49,11 +64,10 @@ def deal_with_year_error(api_key, title):
 
 def get_ratings(title, api_key=private_variables.api_key):
     """
-    args:
-        api_key - api key for accessing OMDB
-        title - a string movie title
-    return:
-        a dictionary with the imdb and rt scores for the film
+    Get the movie title's ratings from imdb
+    :param title: a string movie title
+    :param api_key: api key for accessing OMDB
+    :return: a dictionary with the imdb and rt scores for the film
     """
     current_year = datetime.now().year
     url = 'http://www.omdbapi.com/?apikey={}&t={}&y={}'.format(api_key, title, current_year)
