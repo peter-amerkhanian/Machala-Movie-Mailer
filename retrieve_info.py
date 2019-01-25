@@ -53,6 +53,7 @@ def deal_with_year_error(api_key, title):
         current_year = (datetime.now() - relativedelta(years=years)).year
         url_imdb = "http://www.omdbapi.com/?apikey={}&t={}&y={}".format(api_key, title, current_year)
         raw_content = requests.get(url_imdb).content
+        raw_content = str(raw_content.decode('utf8'))
         json_content = json.loads(raw_content)
         if json_content.get("Error"):
             years += 1
@@ -70,8 +71,9 @@ def get_ratings(title, api_key=private_variables.api_key):
     :return: a dictionary with the imdb and rt scores for the film
     """
     current_year = datetime.now().year
-    url = 'http://www.omdbapi.com/?apikey={}&t={}&y={}'.format(api_key, title, current_year)
-    raw_content = requests.get(url).content
+    url_imdb = 'http://www.omdbapi.com/?apikey={}&t={}&y={}'.format(api_key, title, current_year)
+    raw_content = requests.get(url_imdb).content
+    raw_content = str(raw_content.decode('utf8'))
     json_content = json.loads(raw_content, strict=False)
     if json_content.get("Error"):
         json_content = deal_with_year_error(api_key, title)

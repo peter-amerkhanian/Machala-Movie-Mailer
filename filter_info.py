@@ -36,6 +36,6 @@ if __name__ == "__main__":
             server.login(private_variables.email_login_user, private_variables.email_login_password)
             for msg in msgs:
                 server.send_message(msg)
-        print("Email sent successfully!\n--------------------\n", body, "\n--------------------")
+        print("Email sent successfully!\n", "-"*10, "\n", body, "\n", "-"*10)
     else:
         print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
