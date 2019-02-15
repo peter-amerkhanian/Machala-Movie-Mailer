@@ -1,7 +1,8 @@
 from flask import Flask, render_template, Markup
-from filter_info import mail
 
 app = Flask(__name__)
+with open("mail.txt", "r") as file:
+    mail = Markup(file.readline())
 
 
 @app.route("/")
