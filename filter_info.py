@@ -1,4 +1,3 @@
-from flask import Flask, render_template, Markup
 from retrieve_info import movies, get_movie_info, get_show_times, get_ratings
 import emailer
 import smtplib
@@ -26,11 +25,12 @@ if len(bodies) >= 1:
         plural = "Movies"
     body = "\n\n***\t***\n".join(bodies)
     # Create an HTML string for the webapp
-    mail = Markup(
-        "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
-            len(bodies),
-            plural,
-            movies_html))
+    mail = "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
+        len(bodies),
+        plural,
+        movies_html)
+    with open("mail.txt", "w") as file:
+        file.write(mail)
     # Create Messages
     if __name__ == "__main__":
         msgs = []
