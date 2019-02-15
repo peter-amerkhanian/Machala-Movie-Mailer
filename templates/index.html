@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>Machala Movie Mailer</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>-->
+    <style type="text/css">
+    </style>
+</head>
+
+</body>
+    <div class="block text-center mt-5">
+      <div class="container-fluid">
+        <h4 class="mb-4">
+          <strong>Machala</strong> Movie Mailer
+        </h4>
+        <h6 class="mb-4">
+          Get a heads up anytime a movie is playing in English in Machala.
+        </h6>
+        <form class="form-inline d-flex justify-content-center">
+          <input class="form-control mb-2" placeholder="Name">
+          <input class="form-control mb-2 mx-1" placeholder="Email Address">
+          <button class="btn btn-primary mb-2 mx-1">Sign Up</button>
+          <button class="btn btn-primary mb-2 mx-1">Edit Account</button>
+        </form>
+        <small class="text-muted">
+          I promise not to spam or pass your details along to anyone else
+        </small>
+      </div>
+    </div>
+    <div class="block block-bordered text-center mt-5">
+      <div class="container-fluid">
+       <blockquote class="pull-quote">
+          <p>
+            {{ mail }}
+          </p>
+        </blockquote>
+    </div>
+</div>
+</body>
+
+</html>
