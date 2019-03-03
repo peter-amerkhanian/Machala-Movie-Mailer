@@ -1,9 +1,8 @@
-from retrieve_info import movies, get_movie_info, get_show_times, get_ratings
-import emailer
+from machala_movie_mailer.retrieve_info import movies, get_movie_info, get_show_times, get_ratings
+from machala_movie_mailer import private_variables, emailer
 import smtplib
 from datetime import datetime
 # All information from this module is private:
-import private_variables
 
 
 # Create the email's body
