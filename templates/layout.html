@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Machala Movie Mailer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <style type="text/css">
+        <!--a {-->
+          <!--color: black;-->
+          <!--text-decoration: none;-->
+        <!--}-->
+        <!--a:hover {-->
+          <!--background-color: #555;-->
+        <!--}-->
+        <!--a:active {-->
+          <!--background-color: black;-->
+        <!--}-->
+    </style>
+    <div class="block text-center mt-5">
+    <div class="container-fluid">
+        <h4 class="mb-3">
+          <!--<strong>Machala</strong> Movie Mailer-->
+          <a class="" href="{{ url_for('home') }}" role="title"><strong><i class="em em-flag-ec"></i> Machala</strong> Movie Mailer <i class="em em-flag-ec"></i></a>
+        </h4>
+        <h6 class="mb-3">
+          Get a heads up anytime a movie is playing in English in Machala.
+        </h6>
+    </div>
+    </div>
+</head>
+
+</body>
+    <div class="block text-center mt-2 mb-4">
+        {% with messages = get_flashed_messages(with_categories = True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="block text-center mb-4">
+    {% block content %} {% endblock %}
+    </div>
+</body>
+
+</html>

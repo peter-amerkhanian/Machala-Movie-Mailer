@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <form method="POST" action="", class="form-inline d-flex justify-content-center">
+            {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <!--{{ form.name.label(class="form-control mb-2") }}-->
+                    {{ form.name(class="form-control mb-2") }}
+                </div>
+                <div class="form-group">
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid mb-2") }}
+                        <!--<div class="invalid-feedback">-->
+                            <!--{% for error in form.email.errors %}-->
+                                <!--<span>{{ error }}</span>-->
+                            <!--{% endfor %}-->
+                        <!--</div>-->
+                    {% else %}
+                        {{ form.email(class="form-control mb-2") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.location(class="form-control mb-2") }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary mb-2 mx-1") }}
+                </div>
+        </form>
+    </div>
+    <div class="container-fluid">
+        <small class="text-muted">
+          I promise not to spam or pass your details along to anyone else - MMM
+        </small>
+    </div>
+    <!--<div class="container-fluid">-->
+        <!--<small class="text-muted mb4">-->
+            <!--Already Have An Account and want to unsubscribe? <a class="ml-2" href="{{ url_for('login') }}">Unsubscribe</a>-->
+        <!--</small>-->
+    <!--</div>-->
+{% endblock content %}
+
