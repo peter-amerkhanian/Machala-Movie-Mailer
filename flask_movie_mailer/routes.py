@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect
-from flask_movie_mailer import app
+from flask_movie_mailer import app, db
 from flask_movie_mailer.forms import RegistrationForm, LoginForm
 from flask_movie_mailer.models import User
 
@@ -14,6 +14,11 @@ def home():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        user = User(name=form.name.data,
+                    email=form.email.data,
+                    location=form.location.data)
+        db.session.add(user)
+        db.session.commit()
         flash(f"Account created for {form.email.data}.", "success")
         return redirect(url_for('home'))
     return render_template('register.html',
