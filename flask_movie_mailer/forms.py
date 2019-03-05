@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Length, Email
+from wtforms.validators import DataRequired, Length, Email, ValidationError
+from flask_movie_mailer.models import User
 
 
 class RegistrationForm(FlaskForm):
@@ -13,18 +14,24 @@ class RegistrationForm(FlaskForm):
                                     Email()],
                         render_kw={"placeholder": "Email"})
     location = SelectField('Location',
-                           choices=[("Machala", "Machala"), ("Cuenca", "Cuenca"), ("Quito", "Quito")],
+                           choices=[("Machala", "Machala")],
                            validators=[DataRequired()])
     submit = SubmitField('Sign Up')
 
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email is already connected to an account')
 
-class LoginForm(FlaskForm):
-    name = StringField('Name',
-                       validators=[DataRequired(),
-                                   Length(min=2, max=20)],
-                       render_kw={"placeholder": "Name"})
+
+class UnsubscribeForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(),
                                     Email()],
                         render_kw={"placeholder": "Email"})
     unsubscribe = SubmitField('Unsubscribe')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if not user:
+            raise ValidationError("That email isn't connected to an account")
