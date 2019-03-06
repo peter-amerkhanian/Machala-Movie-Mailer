@@ -1,29 +1,68 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="container-fluid">
-        <form method="POST" action="", class="form-inline d-flex justify-content-center">
+        <form method="POST" action="" class="justify-content-center">
+        <!--<form method="POST" action="" class="form-inline d-flex justify-content-center">-->
             {{ form.hidden_tag() }}
-                <div class="form-group">
-                    <!--{{ form.name.label(class="form-control mb-2") }}-->
-                    {{ form.name(class="form-control mb-2") }}
-                </div>
-                <div class="form-group">
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control is-invalid mb-2") }}
-                    {% else %}
-                        {{ form.email(class="form-control mb-2") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.location(class="form-control mb-2") }}
-                </div>
-                <div class="form-group">
-                    {{ form.submit(class="btn btn-primary mb-2 mx-1") }}
-                </div>
+            <div class="row justify-content-center">
+                    <div class="form-group col-md-0">
+                        {{ form.name(class="form-control mb-2") }}
+                    </div>
+                    <div class="form-group col-md-0">
+                        {% if form.email.errors %}
+                            {{ form.email(class="form-control is-invalid mb-2") }}
+                        {% else %}
+                            {{ form.email(class="form-control mb-2") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-md-0">
+                        {{ form.location(class="form-control mb-2") }}
+                    </div>
+            </div>
+            <div class="row justify-content-center">
+                    <div class="form-group col-md-4">
+                        {% if form.frequency.errors %}
+                            {{ form.frequency(class="form-control is-invalid mb-2") }}
+                        {% else %}
+                            {{ form.frequency(class="form-control mb-2") }}
+                        {% endif %}
+                    </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary mb-2 mx-1") }}
+            </div>
+
+                <!--<div class="form-group">-->
+                    <!--{{ form.name(class="form-control mb-2") }}-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--{% if form.email.errors %}-->
+                        <!--{{ form.email(class="form-control is-invalid mb-2") }}-->
+                    <!--{% else %}-->
+                        <!--{{ form.email(class="form-control mb-2") }}-->
+                    <!--{% endif %}-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--{{ form.location(class="form-control mb-2") }}-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--How often would you like to receive emails?-->
+                    <!--{{ form.frequency(class="form-control mb-2") }}-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--{{ form.submit(class="btn btn-primary mb-2 mx-1") }}-->
+                <!--</div>-->
         </form>
         {% if form.email.errors %}
         <div class="alert alert-danger" role="alert">
             {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.frequency.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.frequency.errors %}
                 <span>{{ error }}</span>
             {% endfor %}
         </div>
