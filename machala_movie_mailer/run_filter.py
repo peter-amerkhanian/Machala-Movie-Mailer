@@ -15,7 +15,7 @@ for movie in movies:
     eng = len([time for time in times if 'english' in time['Language'].lower()])
     if eng:
         body = emailer.make_message(film, times, ratings)
-        movies_html += "<p> {}: {} </p>".format(film['title'], times[-1]['Times'])
+        movies_html += '<p><a href="{}"><b>{}</b></a> {}</p>'.format(film['trailer'], film['title'], times[-1]['Times'])
         bodies.append(body)
 # Check if the subject line should have Movie or Movies
 if len(bodies) >= 1:
@@ -28,7 +28,7 @@ if len(bodies) >= 1:
         len(bodies),
         plural,
         movies_html)
-    with open("mail.txt", "w") as file:
+    with open(r"../flask_movie_mailer/static/{}_message.txt".format(datetime.today().strftime('%Y-%m-%d')), "w") as file:
         file.write(mail)
     # Create Messages
     if __name__ == "__main__":
