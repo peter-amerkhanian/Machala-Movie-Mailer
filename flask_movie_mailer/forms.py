@@ -16,12 +16,21 @@ class RegistrationForm(FlaskForm):
     location = SelectField('Location',
                            choices=[("Machala", "Machala")],
                            validators=[DataRequired()])
+    frequency = SelectField('Frequency',
+                            choices=[(0, "How often would you like to receive emails..."),
+                                     ("Daily", "Daily"),
+                                     ("Weekends", "Only on weekends")],
+                            validators=[DataRequired()])
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email is already connected to an account')
+
+    def validate_frequency(self, frequency):
+        if frequency.data == 0:
+            raise ValidationError('Please select how often you want to be emailed')
 
 
 class UnsubscribeForm(FlaskForm):

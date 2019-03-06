@@ -4,6 +4,7 @@ from flask_movie_mailer.forms import RegistrationForm, UnsubscribeForm
 from flask_movie_mailer.models import User
 from flask_movie_mailer.quote_generator import generate_random_quote
 from flask_movie_mailer.movie_today import movie_today
+from datetime import datetime
 
 @app.route("/")
 @app.route("/home")
@@ -22,15 +23,19 @@ def register():
     if form.validate_on_submit():
         user = User(name=form.name.data,
                     email=form.email.data,
-                    location=form.location.data)
+                    location=form.location.data,
+                    frequency=form.frequency.data)
         db.session.add(user)
         db.session.commit()
-        flash(Markup(
-            """
+        message = """
             <b>Account created for {} in {} <i class="em em-sunglasses"></i></b> <br/>
             <p></p>
-            {}
-            """.format(form.email.data, form.location.data, movie_today)))
+            """.format(form.email.data, form.location.data)
+        if datetime.now().hour > 8:
+            message += movie_today
+        else:
+            message += "<p>Your first email will arrive at 9:00am</p>"
+        flash(Markup(message))
         return redirect(url_for('landing'))
     return render_template('register.html',
                            title='Register',
