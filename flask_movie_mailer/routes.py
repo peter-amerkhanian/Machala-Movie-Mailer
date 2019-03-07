@@ -6,6 +6,7 @@ from flask_movie_mailer.quote_generator import generate_random_quote
 from flask_movie_mailer.movie_today import movie_today
 from datetime import datetime
 
+
 @app.route("/")
 @app.route("/home")
 def home():
