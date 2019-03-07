@@ -12,10 +12,12 @@ for movie in movies:
     film = get_movie_info(movie)
     times = get_show_times(movie)
     ratings = get_ratings(film['title'])
-    eng = len([time for time in times if 'english' in time['Language'].lower()])
+    eng_times = [time["Times"] for time in times if 'english' in time['Language'].lower()]
+    eng = len(eng_times)
     if eng:
         body = emailer.make_message(film, times, ratings)
-        movies_html += '<p><a href="{}"><b>{}</b></a> {}</p>'.format(film['trailer'], film['title'], times[-1]['Times'])
+        eng_time = eng_times[0]
+        movies_html += '<p><a href="{}"><b>{}</b></a> {}</p>'.format(film['trailer'], film['title'], eng_time)
         bodies.append(body)
 # Check if the subject line should have Movie or Movies
 if len(bodies) >= 1:
@@ -28,7 +30,7 @@ if len(bodies) >= 1:
         len(bodies),
         plural,
         movies_html)
-    with open(r"../flask_movie_mailer/static/{}_message.txt".format(datetime.today().strftime('%Y-%m-%d')), "w") as file:
+    with open(r"../flask_movie_mailer/static/today_message.txt", "w") as file:
         file.write(mail)
     # Create Messages
     if __name__ == "__main__":
@@ -43,8 +45,8 @@ if len(bodies) >= 1:
             server.starttls()
             server.ehlo()
             server.login(private_variables.email_login_user, private_variables.email_login_password)
-            for msg in msgs:
-                server.send_message(msg)
+            # for msg in msgs:
+            #     server.send_message(msg)
         print("Email sent successfully!\n", "-"*10, "\n", body, "\n", "-"*10)
 else:
     print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
