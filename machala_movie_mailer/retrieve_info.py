@@ -12,7 +12,6 @@ from machala_movie_mailer import private_variables
 url = "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
-
 movies = list(soup.findAll('div', {"class": "carteleraItem"}))
 
 
