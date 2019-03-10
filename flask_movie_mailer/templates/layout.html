@@ -7,22 +7,38 @@
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <style type="text/css">
         a:hover { color: #1178F3; text-decoration: none}
+        body {
+                  margin: 5px;
+                  padding: 80px 0;
+                  position: relative;
+                }
+        @media (max-width: @screen-xs) {
+                    body{font-size: 10px;}
+                }
+
+        @media (max-width: @screen-sm) {
+                    body{font-size: 14px;}
+                }
+        h4{
+            font-size: 180%;
+        }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <div class="block text-center mt-5">
-    <div class="container-fluid">
-        <h4 class="mb-3">
-          <!--<strong>Machala</strong> Movie Mailer-->
-          <a class="" href="{{ url_for('home') }}" role="title"><strong><i class="em em-flag-ec"></i> Machala</strong> Movie Mailer <i class="em em-flag-ec"></i></a>
-        </h4>
-        <h6 class="mb-3">
-          Get a heads up anytime a movie is playing in English in Machala.
-        </h6>
-    </div>
-    </div>
 </head>
 
 </body>
+    <div class="container-fluid">
+        <div class="block text-center mt-5">
+            <!--<div class="container-fluid">-->
+                <h4 class="mb-3">
+                  <a href="{{ url_for('home') }}" role="title"><strong><i class="em em-flag-ec"></i></strong><br><strong> Machala</strong> Movie Mailer </a>
+                </h4>
+                <h6 class="mb-3">
+                  Get a heads up anytime a movie is playing in English in Machala.
+                </h6>
+            <!--</div>-->
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="block text-center mt-2 mb-4">
             {% with messages = get_flashed_messages(with_categories = True) %}
