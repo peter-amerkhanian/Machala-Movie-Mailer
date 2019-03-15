@@ -13,11 +13,6 @@ def home():
     return render_template('index.html')
 
 
-# @app.route("/landing")
-# def landing():
-#     return render_template('layout.html')
-
-
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
