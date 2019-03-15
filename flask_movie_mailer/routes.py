@@ -13,9 +13,9 @@ def home():
     return render_template('index.html')
 
 
-@app.route("/landing")
-def landing():
-    return render_template('layout.html')
+# @app.route("/landing")
+# def landing():
+#     return render_template('layout.html')
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -28,16 +28,16 @@ def register():
                     frequency=form.frequency.data)
         db.session.add(user)
         db.session.commit()
-        message = """
-            <b>Account created for {} in {} <i class="em em-sunglasses"></i></b> <br/>
-            <p></p>
-            """.format(form.email.data, form.location.data)
-        if datetime.now().hour > 8:
-            message += movie_today
+        if datetime.utcnow().hour > 13:
+            return render_template('registered.html',
+                                   email=form.email.data,
+                                   location=form.location.data,
+                                   message=Markup(movie_today))
         else:
-            message += "<p>Your first email will arrive at 9:00am</p>"
-        flash(Markup(message))
-        return redirect(url_for('landing'))
+            return render_template('registered.html',
+                                   email=form.email.data,
+                                   location=form.location.data,
+                                   message=Markup('<p>Your first email will arrive at 9:00am</p>'))
     return render_template('register.html',
                            title='Register',
                            form=form)
@@ -51,22 +51,10 @@ def unsubscribe():
         db.session.delete(user)
         db.session.commit()
         quote = generate_random_quote()
-        flash(Markup(
-            """
-           <b>{} has been unsubscribed... <i class="em em-cry"></i></b>
-           <p></p>
-            <div class="center">
-               <i>"{}"</i> <br/>
-               <sub>{}</sub>
-            </div>
-            <p></p>
-            <form class="form-inline d-flex justify-content-center">
-                <a class="btn btn-primary mb-4 mx-1" href="/register" role="button">
-                    Sign back up <i class="em em---1"></i>
-                </a>
-            </form>
-            """.format(form.email.data, quote["text"], quote["author"])))
-        return redirect(url_for('landing'))
+        return render_template('unsubscribed.html',
+                               email=form.email.data,
+                               text=quote["text"],
+                               author=quote["author"])
     return render_template('unsubscribe.html',
                            title='Login',
                            form=form)

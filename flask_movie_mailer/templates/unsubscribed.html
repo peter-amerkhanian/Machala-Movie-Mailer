@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid">
+    <b>{{ email }} has been unsubscribed... <i class="em em-cry"></i></b>
+    <p></p>
+    <div class="center">
+        <i>"{{ text }}"</i> <br/>
+        <sub>{{ author }}</sub>
+    </div>
+    <p></p>
+    <form class="form-inline d-flex justify-content-center">
+        <a class="btn btn-primary mb-4 mx-1" href="/register" role="button">
+            Sign back up <i class="em em---1"></i>
+        </a>
+    </form>
+</div>
+{% endblock content %}
