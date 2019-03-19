@@ -23,19 +23,20 @@ def register():
                     frequency=form.frequency.data)
         db.session.add(user)
         db.session.commit()
-        if datetime.utcnow().hour > 13:
-            return render_template('registered.html',
-                                   email=form.email.data,
-                                   location=form.location.data,
-                                   message=Markup(movie_today))
-        else:
-            return render_template('registered.html',
-                                   email=form.email.data,
-                                   location=form.location.data,
-                                   message=Markup('<p>Your first email will arrive at 9:00am</p>'))
+        return redirect(url_for('registered'))
     return render_template('register.html',
                            title='Register',
                            form=form)
+
+
+@app.route("/registered")
+def registered():
+        if datetime.utcnow().hour > 13:
+            return render_template('registered.html',
+                                   message=Markup(movie_today))
+        else:
+            return render_template('registered.html',
+                                   message=Markup('<p>Your first email will arrive at 9:00am</p>'))
 
 
 @app.route("/unsubscribe", methods=['GET', 'POST'])
@@ -45,14 +46,18 @@ def unsubscribe():
         user = User.query.filter_by(email=form.email.data).first()
         db.session.delete(user)
         db.session.commit()
-        quote = generate_random_quote()
-        return render_template('unsubscribed.html',
-                               email=form.email.data,
-                               text=quote["text"],
-                               author=quote["author"])
+        return redirect(url_for('unsubscribed'))
     return render_template('unsubscribe.html',
                            title='Login',
                            form=form)
+
+
+@app.route("/unsubscribed")
+def unsubscribed():
+    quote = generate_random_quote()
+    return render_template('unsubscribed.html',
+                           text=quote["text"],
+                           author=quote["author"])
 
 
 @app.errorhandler(404)
