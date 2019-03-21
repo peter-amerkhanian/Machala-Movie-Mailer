@@ -17,10 +17,7 @@ def home():
 def register():
     form = RegistrationForm()
     dummy = request.form
-    print(dummy)
-    print(form.validate_on_submit())
     if form.validate_on_submit():
-        print("got validated")
         user = User(name=form.name.data,
                     email=form.email.data,
                     location=form.location.data,
@@ -47,10 +44,7 @@ def registered():
 def unsubscribe():
     form = UnsubscribeForm()
     dummy = request.form
-    print(dummy)
-    print(form.validate_on_submit())
     if form.validate_on_submit():
-        print("got validated")
         user = User.query.filter_by(email=form.email.data).first()
         db.session.delete(user)
         db.session.commit()
