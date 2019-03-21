@@ -17,11 +17,14 @@ def home():
 def register():
     form = RegistrationForm()
     dummy = request.form
+    print(dummy)
+    print(dummy.get('frequency'))
+    print(form.frequency.data)
     if form.validate_on_submit():
         user = User(name=form.name.data,
                     email=form.email.data,
                     location=form.location.data,
-                    frequency=form.frequency.data)
+                    frequency=form.frequency.data[0])
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('registered'))
