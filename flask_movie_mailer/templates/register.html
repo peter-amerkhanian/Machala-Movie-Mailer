@@ -45,6 +45,11 @@
             {% endfor %}
         </div>
         {% endif %}
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            <span>{{ form.errors }}</span>
+        </div>
+        {% endif %}
     </div>
     <div class="container-fluid">
         <small class="text-muted">

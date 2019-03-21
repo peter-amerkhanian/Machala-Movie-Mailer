@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, Markup
+from flask import render_template, url_for, flash, redirect, Markup, request
 from flask_movie_mailer import app, db
 from flask_movie_mailer.forms import RegistrationForm, UnsubscribeForm
 from flask_movie_mailer.models import User
@@ -16,7 +16,11 @@ def home():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    dummy = request.form
+    print(dummy)
+    print(form.validate_on_submit())
     if form.validate_on_submit():
+        print("got validated")
         user = User(name=form.name.data,
                     email=form.email.data,
                     location=form.location.data,
@@ -42,7 +46,11 @@ def registered():
 @app.route("/unsubscribe", methods=['GET', 'POST'])
 def unsubscribe():
     form = UnsubscribeForm()
+    dummy = request.form
+    print(dummy)
+    print(form.validate_on_submit())
     if form.validate_on_submit():
+        print("got validated")
         user = User.query.filter_by(email=form.email.data).first()
         db.session.delete(user)
         db.session.commit()
