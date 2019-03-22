@@ -17,7 +17,7 @@ def home():
 def register():
     form = RegistrationForm()
     dummy = request.form
-    print(dummy)
+    print(dummy) # For testing
     if form.validate_on_submit():
         user = User(name=form.name.data,
                     email=form.email.data,
