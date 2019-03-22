@@ -21,9 +21,6 @@ class RegistrationForm(FlaskForm):
     location = SelectField('Location',
                            choices=[("Machala", "Machala")],
                            validators=[DataRequired()])
-    frequency = RadioField('Frequency',
-                           choices=[("Daily", "Daily movie scanning"),
-                                    ("Weekends", "Only on weekends")])
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
