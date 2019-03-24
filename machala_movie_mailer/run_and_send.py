@@ -1,7 +1,7 @@
-from machala_movie_mailer.retrieve_info import movies
+from retrieve_info import movies
 import smtplib
 from datetime import datetime
-from machala_movie_mailer.create_emails import \
+from create_emails import \
     make_email_body, check_for_plural, make_final_email_objects, init_email, make_html_file
 
 

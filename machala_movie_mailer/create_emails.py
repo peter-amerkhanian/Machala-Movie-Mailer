@@ -1,7 +1,7 @@
-from machala_movie_mailer.retrieve_info import get_movie_info, get_show_times, get_ratings
-from machala_movie_mailer.private_variables import from_address, email_login_password, email_login_user
-from machala_movie_mailer.email_tools import create_email_text, create_email_object
-from machala_movie_mailer.get_users import get_user_addresses
+from retrieve_info import get_movie_info, get_show_times, get_ratings
+from private_variables import from_address, email_login_password, email_login_user
+from email_tools import create_email_text, create_email_object
+from get_users import get_user_addresses
 
 
 def make_email_body(_movies):

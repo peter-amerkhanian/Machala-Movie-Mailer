@@ -1,5 +1,5 @@
 import psycopg2
-from machala_movie_mailer.private_variables import db_connection
+from private_variables import db_connection
 from email.headerregistry import Address
 
 

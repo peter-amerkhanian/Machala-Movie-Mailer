@@ -4,7 +4,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import json
 # All information from this module is private:
-from machala_movie_mailer import private_variables
+import private_variables
 
 # Cuenca URL:
 url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
