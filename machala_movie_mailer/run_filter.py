@@ -5,13 +5,6 @@ from datetime import datetime
 # All information from this module is private:
 
 
-def make_html_file(_todays_movies, _plural, _todays_movies_html):
-    mail = "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
-        len(_todays_movies), _plural, _todays_movies_html)
-    with open(r"../flask_movie_mailer/static/today_message.txt", "w") as file:
-        file.write(mail)
-
-
 def make_email_body(_movies):
     todays_movies = []
     todays_movies_html = ""
@@ -28,19 +21,29 @@ def make_email_body(_movies):
                                                                                 film['title'],
                                                                                 english_time)
             todays_movies.append(body)
-    return todays_movies, todays_movies_html
+    return "\n\n***\t***\n".join(todays_movies), todays_movies_html, bool(len(todays_movies))
+
+
+def make_html_file(num_movies, _plural, _todays_movies_html):
+    mail = "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
+        num_movies, _plural, _todays_movies_html)
+    with open(r"../flask_movie_mailer/static/today_message.txt", "w") as file:
+        file.write(mail)
+
+
+def check_for_plural(num_movies):
+    if num_movies > 1:
+        return "Movies"
+    return "Movie"
 
 
 # Create the email's body
-todays_movies, todays_movies_html = make_email_body(movies)
+body, todays_movies_html, num_movies_playing = make_email_body(movies)
 # Check if the subject line should have Movie or Movies
-if len(todays_movies) >= 1:
-    plural = "Movie"
-    if len(todays_movies) > 1:
-        plural = "Movies"
-    body = "\n\n***\t***\n".join(todays_movies)
+if num_movies_playing:
+    plural = check_for_plural(num_movies_playing)
     # Create an HTML string for the webapp
-    make_html_file(todays_movies, plural, todays_movies_html)
+    make_html_file(num_movies_playing, plural, todays_movies_html)
     # Create & send messages
     if __name__ == "__main__":
         msgs = []
