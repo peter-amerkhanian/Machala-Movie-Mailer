@@ -5,6 +5,12 @@ from datetime import datetime
 
 
 def make_email_body(_movies):
+    """
+    turn a list of html for the movies playing at a theater into the body
+    of an email with just the english movies
+    :param _movies: list of BeautifulSoup objects
+    :return: a string of today's movies, a string of html of today's movies, and how many movies
+    """
     todays_movies = []
     todays_movies_html = ""
     for movie in _movies:
@@ -24,6 +30,13 @@ def make_email_body(_movies):
 
 
 def make_html_file(num_movies, _plural, _todays_movies_html):
+    """
+    write a text file with the html of today's movies
+    :param num_movies: int, how many movies are playing today
+    :param _plural: 'Movie' or 'Movies' depending on how many movies are playing
+    :param _todays_movies_html: string with html of today's movies
+    :return: void
+    """
     mail = "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
         num_movies, _plural, _todays_movies_html)
     with open(r"../flask_movie_mailer/static/today_message.txt", "w") as file:
@@ -31,6 +44,11 @@ def make_html_file(num_movies, _plural, _todays_movies_html):
 
 
 def check_for_plural(num_movies):
+    """
+    check for whether messages should have 'Movie' or 'Movies' in it
+    :param num_movies: int of how many movies are playing
+    :return: string, 'Movie' or 'Movies' depending on how many movies are playing
+    """
     if num_movies > 1:
         return "Movies"
     return "Movie"
