@@ -66,6 +66,11 @@ def make_final_email_objects(num_movies_playing, plural, body):
 
 
 def init_email(srvr):
+    """
+    initialize email server
+    :param srvr: an SMTP object
+    :return: void
+    """
     srvr.ehlo()
     srvr.starttls()
     srvr.ehlo()

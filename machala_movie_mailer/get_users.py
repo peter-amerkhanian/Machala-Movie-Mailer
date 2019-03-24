@@ -7,7 +7,7 @@ def get_users():
     conn = psycopg2.connect(db_connection)
     print("connection establish to DB")
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM "user";')
+    cursor.execute('SELECT * FROM "user" WHERE location=\'Machala\'')
     users = cursor.fetchall()
     return users
 
@@ -19,3 +19,6 @@ def get_user_addresses():
         yield Address(display_name=user[1],
                       username=email[0],
                       domain=email[1])
+
+
+print(list(get_user_addresses()))
