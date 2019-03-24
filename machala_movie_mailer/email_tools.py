@@ -1,7 +1,7 @@
 from email.message import EmailMessage
 
 
-def create_email(film, times, ratings):
+def create_email_text(film, times, ratings):
     """
     Create the body of the email
     :param film: dict that contains title, director, trailer
