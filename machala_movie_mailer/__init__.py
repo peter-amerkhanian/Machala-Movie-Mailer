@@ -1,1 +1,0 @@
-from machala_movie_mailer.retrieve_info import movies
