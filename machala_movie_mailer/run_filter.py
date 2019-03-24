@@ -1,8 +1,7 @@
-from .retrieve_info import movies, get_movie_info, get_show_times, get_ratings
-from . import private_variables, email_tools
+from machala_movie_mailer.retrieve_info import movies, get_movie_info, get_show_times, get_ratings
+from machala_movie_mailer import private_variables, email_tools, get_users
 import smtplib
 from datetime import datetime
-# All information from this module is private:
 
 
 def make_email_body(_movies):
@@ -21,7 +20,7 @@ def make_email_body(_movies):
                                                                                 film['title'],
                                                                                 english_time)
             todays_movies.append(body)
-    return "\n\n***\t***\n".join(todays_movies), todays_movies_html, bool(len(todays_movies))
+    return "\n\n***\t***\n".join(todays_movies), todays_movies_html, len(todays_movies)
 
 
 def make_html_file(num_movies, _plural, _todays_movies_html):
@@ -37,29 +36,35 @@ def check_for_plural(num_movies):
     return "Movie"
 
 
-# Create the email's body
-body, todays_movies_html, num_movies_playing = make_email_body(movies)
-# Check if the subject line should have Movie or Movies
-if num_movies_playing:
-    plural = check_for_plural(num_movies_playing)
-    # Create an HTML string for the webapp
-    make_html_file(num_movies_playing, plural, todays_movies_html)
-    # Create & send messages
-    if __name__ == "__main__":
-        msgs = []
-        for to_address in private_variables.to_addresses:
-            msgs.append(email_tools.create_email_object(private_variables.from_address,
+def make_final_email_objects():
+    messages = []
+    for to_address in get_users.get_user_addresses():
+        messages.append(email_tools.create_email_object(private_variables.from_address,
                                                         to_address,
-                                                     '{} English {} Playing Today'.format(len(todays_movies), plural),
+                                                        '{} English {} Playing Today'.format(num_movies_playing,
+                                                                                             plural),
                                                         body))
+    return messages
+
+
+def init_email(srvr):
+    srvr.ehlo()
+    srvr.starttls()
+    srvr.ehlo()
+    srvr.login(private_variables.email_login_user, private_variables.email_login_password)
+
+
+if __name__ == "__main__":
+    body, movies_html, num_movies_playing = make_email_body(movies)
+    if num_movies_playing:
+        plural = check_for_plural(num_movies_playing)
+        msgs = make_final_email_objects()
         with smtplib.SMTP('smtp.gmail.com', port=587) as server:
-            server.ehlo()
-            server.starttls()
-            server.ehlo()
-            server.login(private_variables.email_login_user, private_variables.email_login_password)
+            init_email(server)
             for msg in msgs:
                 server.send_message(msg)
         print("Email sent successfully!\n", "-"*10, "\n", body, "\n", "-"*10)
-else:
-    print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
+        make_html_file(num_movies_playing, plural, movies_html)
+    else:
+        print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
 

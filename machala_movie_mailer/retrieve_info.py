@@ -7,9 +7,9 @@ import json
 from machala_movie_mailer import private_variables
 
 # Cuenca URL:
-# url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
+url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
 # Machala URL:
-url = "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"
+# url = "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 movies = list(soup.findAll('div', {"class": "carteleraItem"}))
