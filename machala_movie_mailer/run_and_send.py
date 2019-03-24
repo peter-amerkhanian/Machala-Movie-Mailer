@@ -14,7 +14,10 @@ if __name__ == "__main__":
             init_email(server)
             for msg in msgs:
                 server.send_message(msg)
-        print("Email sent successfully!\n", "-"*10, "\n", body, "\n", "-"*10)
+        print("-"*10, "\n",
+              "Email sent successfully today: {}\n".format(datetime.today().strftime('%Y-%m-%d')),
+              "\n", body, "\n",
+              "-"*10, "\n")
         make_html_file(num_movies_playing, plural, movies_html)
     else:
         print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
