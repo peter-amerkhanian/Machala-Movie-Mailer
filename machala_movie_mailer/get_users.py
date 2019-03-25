@@ -6,7 +6,7 @@ import psycopg2
 def get_users(city):
     conn = psycopg2.connect(db_connection)
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM "user" WHERE location=\'{}\' AND name=\'peter amerkhanian\''.format(city))
+    cursor.execute('SELECT * FROM "user" WHERE location=\'{}\''.format(city))
     users = cursor.fetchall()
     return users
 
