@@ -1,7 +1,7 @@
-from retrieve_info import get_movie_info, get_show_times, get_ratings
-from private_variables import from_address, email_login_password, email_login_user
-from email_tools import create_email_text, create_email_object
-from get_users import get_user_addresses
+from machala_movie_mailer.retrieve_info import get_movie_info, get_show_times, get_ratings
+from machala_movie_mailer.private_variables import from_address, email_login_password, email_login_user
+from machala_movie_mailer.email_tools import create_email_text, create_email_object
+from machala_movie_mailer.get_users import get_user_addresses
 
 
 def make_email_body(_movies):
@@ -39,7 +39,7 @@ def make_html_file(num_movies, _plural, _todays_movies_html):
     """
     mail = "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
         num_movies, _plural, _todays_movies_html)
-    with open(r"../flask_movie_mailer/static/today_message.txt", "w") as file:
+    with open(r"flask_movie_mailer/static/today_message.txt", "w") as file:
         file.write(mail)
 
 
@@ -54,9 +54,9 @@ def check_for_plural(num_movies):
     return "Movie"
 
 
-def make_final_email_objects(num_movies_playing, plural, body):
+def make_final_email_objects(num_movies_playing, plural, body, city):
     messages = []
-    for to_address in get_user_addresses():
+    for to_address in get_user_addresses(city):
         messages.append(create_email_object(from_address,
                                                         to_address,
                                                         '{} English {} Playing Today'.format(num_movies_playing,

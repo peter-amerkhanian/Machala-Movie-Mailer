@@ -3,8 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import json
-# All information from this module is private:
-import private_variables
+from machala_movie_mailer.private_variables import api_key
 
 # Cuenca URL:
 url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
@@ -64,7 +63,7 @@ def deal_with_year_error(api_key, title):
         return None
 
 
-def get_ratings(title, api_key=private_variables.api_key):
+def get_ratings(title, api_key=api_key):
     """
     Get the movie title's ratings from imdb
     :param title: a string movie title
