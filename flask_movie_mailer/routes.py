@@ -32,12 +32,13 @@ def register():
 
 @app.route("/registered")
 def registered():
-        if datetime.utcnow().hour > 13:
-            return render_template('registered.html',
-                                   message=Markup(movie_today))
-        else:
-            return render_template('registered.html',
-                                   message=Markup('<p>Your first email will arrive at 9:00am</p>'))
+    now = datetime.utcnow().hour
+    if now > 13:
+        return render_template('registered.html',
+                               message=Markup(movie_today))
+    else:
+        return render_template('registered.html',
+                               message=Markup('<p>Your first email will arrive at 9:00am</p>'))
 
 
 @app.route("/unsubscribe", methods=['GET', 'POST'])
