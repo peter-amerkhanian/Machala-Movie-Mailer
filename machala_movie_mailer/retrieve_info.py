@@ -14,6 +14,10 @@ soup = BeautifulSoup(response.text, 'html.parser')
 movies = list(soup.findAll('div', {"class": "carteleraItem"}))
 
 
+def get_theater_name(_soup):
+    return soup.find('div', {"class": "cinecover"}).text.strip()
+
+
 def get_movie_info(movie):
     """
     :param movie: piece of HTML representing a single movie

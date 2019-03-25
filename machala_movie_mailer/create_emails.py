@@ -1,4 +1,4 @@
-from machala_movie_mailer.retrieve_info import get_movie_info, get_show_times, get_ratings
+from machala_movie_mailer.retrieve_info import soup, get_movie_info, get_show_times, get_ratings, get_theater_name
 from machala_movie_mailer.private_variables import from_address, email_login_password, email_login_user
 from machala_movie_mailer.email_tools import create_email_text, create_email_object
 from machala_movie_mailer.get_users import get_user_addresses
@@ -11,6 +11,7 @@ def make_email_body(_movies):
     :param _movies: list of BeautifulSoup objects
     :return: a string of today's movies, a string of html of today's movies, and how many movies
     """
+    theater = get_theater_name(soup)
     todays_movies = []
     todays_movies_html = ""
     for movie in _movies:
@@ -20,7 +21,7 @@ def make_email_body(_movies):
         english_times = [time["Times"] for time in times if 'english' in time['Language'].lower()]
         english_bool = len(english_times)
         if english_bool:
-            body = create_email_text(film, times, ratings)
+            body = create_email_text(film, times, ratings, theater)
             english_time = english_times[0]
             todays_movies_html += '<p><a href="{}"><b>{}</b></a> {}</p>'.format(film['trailer'],
                                                                                 film['title'],
@@ -58,10 +59,10 @@ def make_final_email_objects(num_movies_playing, plural, body, city):
     messages = []
     for to_address in get_user_addresses(city):
         messages.append(create_email_object(from_address,
-                                                        to_address,
-                                                        '{} English {} Playing Today'.format(num_movies_playing,
-                                                                                             plural),
-                                                        body))
+                                            to_address,
+                                            '{} English {} Playing Today'.format(num_movies_playing,
+                                                                                 plural),
+                                            body))
     return messages
 
 

@@ -9,10 +9,10 @@ if __name__ == "__main__":
     if num_movies_playing:
         plural = check_for_plural(num_movies_playing)
         msgs = make_final_email_objects(num_movies_playing, plural, body, city='Machala')
-        # with smtplib.SMTP('smtp.gmail.com', port=587) as server:
-        #     init_email(server)
-        #     for msg in msgs:
-        #         server.send_message(msg)
+        with smtplib.SMTP('smtp.gmail.com', port=587) as server:
+            init_email(server)
+            for msg in msgs:
+                server.send_message(msg)
         print("-"*10, "\n",
               "Email sent successfully today: {}\n".format(datetime.today().strftime('%Y-%m-%d')),
               "\n", body, "\n",

@@ -1,12 +1,13 @@
 from email.message import EmailMessage
 
 
-def create_email_text(film, times, ratings):
+def create_email_text(film, times, ratings, theater):
     """
     Create the body of the email
     :param film: dict that contains title, director, trailer
     :param times: dict that contains language and times
     :param ratings: dict that contains rt and imdb ratings
+    :param theater: string with theater name
     :return: string that contians body of the email
     """
     showtimes = "\n".join(["{}: {}".format(time['Language'], time['Times']) for time in times])
@@ -14,7 +15,7 @@ def create_email_text(film, times, ratings):
                                                                                    film['director'],
                                                                                    ratings['rt'],
                                                                                    film['trailer'])
-    msg_part_2 = "\nShow-times \n{}".format(showtimes)
+    msg_part_2 = "\nShow-times @ {} \n{}".format(theater, showtimes)
     return msg+msg_part_2
 
 
