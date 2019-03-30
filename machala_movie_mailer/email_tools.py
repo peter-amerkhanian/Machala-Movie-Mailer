@@ -10,12 +10,13 @@ def create_email_text(film, times, ratings, theater):
     :param theater: string with theater name
     :return: string that contians body of the email
     """
-    showtimes = "\n".join(["{}: {}".format(time['Language'], time['Times']) for time in times])
-    msg = "Title: {}\nDirector: {}\nRotten Tomato Score: {}\nTrailer: {}\n".format(film['title'],
+
+    showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in times if "english" in time['Language'].lower()])
+    msg = "<p>Title: {}<br/>Director: {}<br/>Rotten Tomato Score: {}<br/>Trailer: {}</p>".format(film['title'],
                                                                                    film['director'],
                                                                                    ratings['rt'],
                                                                                    film['trailer'])
-    msg_part_2 = "\nShow-times @ {} \n{}".format(theater, showtimes)
+    msg_part_2 = "<p><br/>Show-times @ {} <br/>{}</p>".format(theater, showtimes)
     return msg+msg_part_2
 
 
@@ -32,5 +33,5 @@ def create_email_object(from_, to_, subject, body):
     msg['From'] = from_
     msg['To'] = to_
     msg['Subject'] = subject
-    msg.set_content(body)
+    msg.set_content(body, subtype='html')
     return msg
