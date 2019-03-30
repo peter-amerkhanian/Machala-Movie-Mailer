@@ -5,17 +5,21 @@ from dateutil.relativedelta import relativedelta
 import json
 from machala_movie_mailer.private_variables import api_key
 
-# Cuenca URL:
-# url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
-# Machala URL:
-url = "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"
-response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
-movies = list(soup.findAll('div', {"class": "carteleraItem"}))
+
+def get_movies(city):
+    # Cuenca URL:
+    # url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
+    # Machala URL:
+    city_dict = {'Machala': "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/",
+                 'Cuenca': "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"}
+    url = city_dict[city]
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    return list(soup.findAll('div', {"class": "carteleraItem"})), soup, url
 
 
 def get_theater_name(_soup, url):
-    return soup.find('div', {"class": "cinecover"}).text.strip(), url
+    return _soup.find('div', {"class": "cinecover"}).text.strip(), url
 
 
 def get_movie_info(movie):

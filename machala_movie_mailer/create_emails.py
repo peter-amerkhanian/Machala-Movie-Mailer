@@ -1,10 +1,10 @@
-from machala_movie_mailer.retrieve_info import soup, get_movie_info, get_show_times, get_ratings, get_theater_name, url
+from machala_movie_mailer.retrieve_info import get_movie_info, get_show_times, get_ratings, get_theater_name
 from machala_movie_mailer.private_variables import from_address, email_login_password, email_login_user
 from machala_movie_mailer.email_tools import create_email_text, create_email_object
 from machala_movie_mailer.get_users import get_user_addresses
 
 
-def make_email_body(_movies):
+def make_email_body(_movies, soup, url):
     """
     turn a list of html for the movies playing at a theater into the body
     of an email with just the english movies
