@@ -22,3 +22,5 @@ if __name__ == "__main__":
             make_html_file(num_movies_playing, plural, movies_html)
         else:
             print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
+            with open(r"flask_movie_mailer/static/today_message.txt", "w") as file:
+                file.write("<h5><cite>No English movies today, but you'll get an email when there are!</cite></h5>")
