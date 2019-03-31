@@ -90,7 +90,7 @@ def get_ratings(title, api_key=api_key):
     try:
         rotten_tomatoes_rating = json_content['Ratings'][1]['Value']
     except IndexError:
-        rotten_tomatoes_rating = "*No RT Score Available*"
+        rotten_tomatoes_rating = "*No Score Available*"
     current_year = (datetime.now() - relativedelta(years=1)).year
     imdb_rating = json_content['imdbRating']
     return {'imdb': imdb_rating, 'rt': rotten_tomatoes_rating}
