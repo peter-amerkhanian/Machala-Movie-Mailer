@@ -25,16 +25,18 @@ def make_email_body(theaters):
             if film['title'] in todays_movies and len(english_times):
                 showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
                 todays_movies[film['title']] += "<p>Show-times @ {}<br/>{}</p>".format(theater_html, showtimes)
-                todays_movies_html += '<p><a href="{}"><b>{} @ {}</b></a> {}</p>'.format(film['trailer'],
-                                                                                         film['title'],
-                                                                                         theater,
-                                                                                         english_time)
+                todays_movies_html += '<p><b><a href="{}">{} </a>@ <a href="{}">{} </a></b></p>'.format(
+                    film['trailer'],
+                    film['title'],
+                    theater_url,
+                    theater)
             elif len(english_times):
                 english_time = english_times[0]['Times']
-                todays_movies_html += '<p><a href="{}"><b>{} @ {}</b></a> {}</p>'.format(film['trailer'],
-                                                                                         film['title'],
-                                                                                         theater,
-                                                                                         english_time)
+                todays_movies_html += '<p><b><a href="{}">{} </a>@ <a href="{}">{} </a></b></p>'.format(
+                    film['trailer'],
+                    film['title'],
+                    theater_url,
+                    theater)
                 body = create_email_text(film, english_times, ratings, theater_html)
                 todays_movies[film['title']] = body
     edit_account = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'

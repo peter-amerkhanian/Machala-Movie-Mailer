@@ -20,8 +20,18 @@ def get_movies(city):
                                'https://cinepass.com.ec/gye/complejos/supercines-losceibos/hoy/',
                                'https://cinepass.com.ec/gye/complejos/supercines-sanmarino/hoy/',
                                'https://cinepass.com.ec/gye/complejos/supercines-sur/hoy/',
-                               'https://cinepass.com.ec/gye/complejos/supercines-norte/hoy/'
-                               ]}
+                               'https://cinepass.com.ec/gye/complejos/supercines-norte/hoy/'],
+                 'Quito': ['https://cinepass.com.ec/uio/complejos/cinemark-paseo-san-francisco/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/cinemark-plaza-las-americas/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/cineplex/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/multicines-cci/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/mis-cines/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/multicines-condado/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/multicines-recreo/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/multicines-scala/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/supercines-6-de-diciembre/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/supercines-quicentrosur/hoy/',
+                           'https://cinepass.com.ec/uio/complejos/supercines-sanluis/hoy/']}
     urls = city_dict[city]
     for url in urls:
         response = requests.get(url)
@@ -53,7 +63,8 @@ def get_show_times(movie):
     show_types = movie.findAll('table', {"id": "horariotabla"})
     showings = []
     for show in show_types:
-        show_times = [json.loads(showing.text.replace(',}', '}'))['doorTime'] for showing in show.findAll('script', {"type" : "application/ld+json"})]
+        show_times = [json.loads(showing.text.replace(',}', '}'))['doorTime'] for showing in
+                      show.findAll('script', {"type": "application/ld+json"})]
         showings.append({'Language': (show.p.text).replace("Subtitulada", "English"),
                          'Times': ", ".join(show_times)})
     return showings
@@ -103,7 +114,7 @@ def get_ratings(title, api_key=api_key):
     except IndexError:
         rotten_tomatoes_rating = "*No Score Available*"
     current_year = (datetime.now() - relativedelta(years=1)).year
-    #imdb_rating = json_content['imdbRating']
+    # imdb_rating = json_content['imdbRating']
     # Get the imdb score
     imdb_id = json_content['imdbID']
     imdb_url = 'https://www.imdb.com/title/{}/'.format(imdb_id)
@@ -112,4 +123,3 @@ def get_ratings(title, api_key=api_key):
     imdb_rating = soup.find('span', {"itemprop": "ratingValue"}).text
     #
     return {'imdb': imdb_rating, 'rt': rotten_tomatoes_rating}
-

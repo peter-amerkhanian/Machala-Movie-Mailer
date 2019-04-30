@@ -1,9 +1,9 @@
-from flask import render_template, url_for, flash, redirect, Markup, request
+from flask import render_template, url_for, flash, redirect, Markup, request, session
 from flask_movie_mailer import app, db
 from flask_movie_mailer.forms import RegistrationForm, UnsubscribeForm
 from flask_movie_mailer.models import User
 from flask_movie_mailer.quote_generator import generate_random_quote
-from flask_movie_mailer.movie_today import movie_today
+from flask_movie_mailer.movie_today import get_movie_today
 from datetime import datetime
 
 
@@ -16,14 +16,13 @@ def home():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    dummy = request.form
-    print(dummy) # For testing
     if form.validate_on_submit():
         user = User(name=form.name.data,
                     email=form.email.data,
                     location=form.location.data)
         db.session.add(user)
         db.session.commit()
+        session['city'] = form.location.data
         return redirect(url_for('registered'))
     return render_template('register.html',
                            title='Register',
@@ -35,7 +34,7 @@ def registered():
     now = datetime.utcnow().hour
     if now > 13:
         return render_template('registered.html',
-                               message=Markup(movie_today))
+                               message=Markup(get_movie_today(session['city'])))
     else:
         return render_template('registered.html',
                                message=Markup('<p>Your first email will arrive at 9:00am</p>'))
@@ -44,7 +43,6 @@ def registered():
 @app.route("/unsubscribe", methods=['GET', 'POST'])
 def unsubscribe():
     form = UnsubscribeForm()
-    dummy = request.form
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         db.session.delete(user)
