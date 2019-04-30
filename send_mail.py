@@ -16,7 +16,7 @@ if __name__ == "__main__":
                 for msg in msgs:
                     server.send_message(msg)
             print("-"*10, "\n",
-                  "Email sent successfully today: {}\n".format(datetime.today().strftime('%Y-%m-%d')),
+                  "{} email built successfully today: {}\n".format(city, datetime.today().strftime('%Y-%m-%d')),
                   "\n", body, "\n",
                   "-"*10, "\n")
             make_html_file(num_movies_playing, plural, movies_html, city)

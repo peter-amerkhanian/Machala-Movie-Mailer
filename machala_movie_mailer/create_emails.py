@@ -23,7 +23,7 @@ def make_email_body(theaters):
             film = get_movie_info(movie)
             ratings = get_ratings(film['title'])
             if film['title'] in todays_movies and len(english_times):
-                showtimes = "".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
+                showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
                 todays_movies[film['title']] += "<p>Show-times @ {} <br/>{}</p>".format(theater_html, showtimes)
             elif len(english_times):
                 english_time = english_times[0]['Times']
