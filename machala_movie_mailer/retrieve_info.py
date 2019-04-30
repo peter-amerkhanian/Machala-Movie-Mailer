@@ -92,6 +92,13 @@ def get_ratings(title, api_key=api_key):
     except IndexError:
         rotten_tomatoes_rating = "*No Score Available*"
     current_year = (datetime.now() - relativedelta(years=1)).year
-    imdb_rating = json_content['imdbRating']
+    #imdb_rating = json_content['imdbRating']
+    # Get the imdb score
+    imdb_id = json_content['imdbID']
+    imdb_url = 'https://www.imdb.com/title/{}/'.format(imdb_id)
+    response = requests.get(imdb_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    imdb_rating = soup.find('span', {"itemprop": "ratingValue"}).text
+    #
     return {'imdb': imdb_rating, 'rt': rotten_tomatoes_rating}
 

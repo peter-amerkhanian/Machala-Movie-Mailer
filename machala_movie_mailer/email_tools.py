@@ -12,12 +12,13 @@ def create_email_text(film, times, ratings, theater):
     """
 
     showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in times if "english" in time['Language'].lower()])
-    msg = "<p>Title: {}<br/>Director: {}<br/>Rotten Tomato Score: {}<br/>Trailer: {}</p>".format(film['title'],
+    msg = "<p>Title: <b>{}</b><br/>Director: {}<br/>IMDB Score: {}/10<br/>Trailer: {}</p>".format(film['title'],
                                                                                    film['director'],
-                                                                                   ratings['rt'],
+                                                                                   ratings['imdb'],
                                                                                    film['trailer'])
     msg_part_2 = "<p><br/>Show-times @ {} <br/>{}</p>".format(theater, showtimes)
-    return msg+msg_part_2
+    msg_part_3 = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
+    return msg+msg_part_2+msg_part_3
 
 
 def create_email_object(from_, to_, subject, body):
