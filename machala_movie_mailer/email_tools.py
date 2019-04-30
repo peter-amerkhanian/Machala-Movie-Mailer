@@ -1,7 +1,7 @@
 from email.message import EmailMessage
 
 
-def create_email_text(film, times, ratings, theater):
+def create_email_text(film, english_times, ratings, theater):
     """
     Create the body of the email
     :param film: dict that contains title, director, trailer
@@ -11,13 +11,12 @@ def create_email_text(film, times, ratings, theater):
     :return: string that contians body of the email
     """
 
-    showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in times if "english" in time['Language'].lower()])
+    showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
     msg = "<p>Title: <b>{}</b><br/>Director: {}<br/>IMDB Score: {}/10<br/>Trailer: {}</p>".format(film['title'],
                                                                                    film['director'],
                                                                                    ratings['imdb'],
                                                                                    film['trailer'])
     msg_part_2 = "<p><br/>Show-times @ {} <br/>{}</p>".format(theater, showtimes)
-    # msg_part_3 = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
     return msg+msg_part_2
 
 
