@@ -7,15 +7,21 @@ from machala_movie_mailer.private_variables import api_key
 
 
 def get_movies(city):
-    # Cuenca URL:
-    # url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
-    # Machala URL:
     city_dict = {'Machala': ["https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"],
                  'Cuenca': ["https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/",
                             "https://cinepass.com.ec/cue/complejos/multicines-mall-del-rio/hoy/"],
                  'Ibarra': ['https://cinepass.com.ec/ira/complejos/starcines/hoy/'],
                  'Guayaquil': ['https://cinepass.com.ec/gye/complejos/cinemark-malldelsur/hoy/',
-                               'https://cinepass.com.ec/gye/complejos/cinemark-citymall/hoy/']}
+                               'https://cinepass.com.ec/gye/complejos/cinemark-citymall/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/cinemark-malldelsol/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/cinemark-village-plaza/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/supercines-el-dorado/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/supercines-entrerios/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/supercines-losceibos/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/supercines-sanmarino/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/supercines-sur/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/supercines-norte/hoy/'
+                               ]}
     urls = city_dict[city]
     for url in urls:
         response = requests.get(url)
@@ -91,7 +97,7 @@ def get_ratings(title, api_key=api_key):
     if json_content.get("Error"):
         json_content = deal_with_year_error(api_key, title)
         if not json_content:
-            return {'imdb': "*No IMDB Rating Available", 'rt': "*No RT Score Available*"}
+            return {'imdb': "*No IMDB Rating Available*", 'rt': "*No RT Score Available*"}
     try:
         rotten_tomatoes_rating = json_content['Ratings'][1]['Value']
     except IndexError:

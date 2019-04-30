@@ -38,8 +38,8 @@ def make_email_body(theaters):
                 body = create_email_text(film, english_times, ratings, theater_html)
                 todays_movies[film['title']] = body
     edit_account = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
-    all_bodies = [v + edit_account for k, v in todays_movies.items()]
-    return "<br/>***    ***<br/>".join(all_bodies), todays_movies_html, len(todays_movies)
+    all_bodies = [v for k, v in todays_movies.items()]
+    return '<br/>***   ***<br/>'.join(all_bodies) + edit_account, todays_movies_html, len(todays_movies)
 
 
 def make_html_file(num_movies, _plural, _todays_movies_html, city):
