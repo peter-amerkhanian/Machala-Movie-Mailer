@@ -5,9 +5,9 @@ from machala_movie_mailer import \
 
 
 if __name__ == "__main__":
-    for city in ['Machala']:
-        movies, soup, url = get_movies(city)
-        body, movies_html, num_movies_playing = make_email_body(movies, soup, url)
+    for city in ['Machala', 'Cuenca', 'Guayaquil', 'Ibarra']:
+        all_theaters = list(get_movies(city))
+        body, movies_html, num_movies_playing = make_email_body(all_theaters)
         if num_movies_playing:
             plural = check_for_plural(num_movies_playing)
             msgs = make_final_email_objects(num_movies_playing, plural, body, city=city)
@@ -19,7 +19,7 @@ if __name__ == "__main__":
                   "Email sent successfully today: {}\n".format(datetime.today().strftime('%Y-%m-%d')),
                   "\n", body, "\n",
                   "-"*10, "\n")
-            make_html_file(num_movies_playing, plural, movies_html)
+            make_html_file(num_movies_playing, plural, movies_html, city)
         else:
             print('No email sent today: {}\n'.format(datetime.today().strftime('%Y-%m-%d')))
             with open(r"flask_movie_mailer/static/today_message.txt", "w") as file:

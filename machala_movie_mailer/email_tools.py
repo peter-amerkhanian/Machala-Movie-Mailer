@@ -17,8 +17,8 @@ def create_email_text(film, times, ratings, theater):
                                                                                    ratings['imdb'],
                                                                                    film['trailer'])
     msg_part_2 = "<p><br/>Show-times @ {} <br/>{}</p>".format(theater, showtimes)
-    msg_part_3 = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
-    return msg+msg_part_2+msg_part_3
+    # msg_part_3 = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
+    return msg+msg_part_2
 
 
 def create_email_object(from_, to_, subject, body):

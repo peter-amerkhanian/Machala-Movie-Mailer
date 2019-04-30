@@ -10,12 +10,17 @@ def get_movies(city):
     # Cuenca URL:
     # url = "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"
     # Machala URL:
-    city_dict = {'Machala': "https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/",
-                 'Cuenca': "https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/"}
-    url = city_dict[city]
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    return list(soup.findAll('div', {"class": "carteleraItem"})), soup, url
+    city_dict = {'Machala': ["https://cinepass.com.ec/mla/complejos/supercines-machala/hoy/"],
+                 'Cuenca': ["https://cinepass.com.ec/cue/complejos/multicines-millenium-plaza/hoy/",
+                            "https://cinepass.com.ec/cue/complejos/multicines-mall-del-rio/hoy/"],
+                 'Ibarra': ['https://cinepass.com.ec/ira/complejos/starcines/hoy/'],
+                 'Guayaquil': ['https://cinepass.com.ec/gye/complejos/cinemark-malldelsur/hoy/',
+                               'https://cinepass.com.ec/gye/complejos/cinemark-citymall/hoy/']}
+    urls = city_dict[city]
+    for url in urls:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        yield list(soup.findAll('div', {"class": "carteleraItem"})), soup, url
 
 
 def get_theater_name(_soup, url):
