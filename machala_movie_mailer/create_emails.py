@@ -2,7 +2,10 @@ from machala_movie_mailer.retrieve_info import get_movie_info, get_show_times, g
 from machala_movie_mailer.private_variables import from_address, email_login_password, email_login_user
 from machala_movie_mailer.email_tools import create_email_text, create_email_object
 from machala_movie_mailer.get_users import get_user_addresses
+import re
 
+def find_first_letter(string):
+    return string.split('>')[3]
 
 def make_email_body(theaters):
     """
@@ -12,7 +15,7 @@ def make_email_body(theaters):
     :return: a string of today's movies, a string of html of today's movies, and how many movies
     """
     todays_movies = {}
-    todays_movies_html = ""
+    todays_movies_html = []
     for theater_tuple in theaters:
         movies, soup, url = theater_tuple
         theater, theater_url = get_theater_name(soup, url)
@@ -25,23 +28,24 @@ def make_email_body(theaters):
             if film['title'] in todays_movies and len(english_times):
                 showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
                 todays_movies[film['title']] += "<p>Show-times @ {}<br/>{}</p>".format(theater_html, showtimes)
-                todays_movies_html += '<p><b><a href="{}">{} </a>@ <a href="{}">{} </a></b></p>'.format(
+                todays_movies_html.append('<p><b><a href="{}">{} </a>@ <a href="{}">{} </a></b></p>'.format(
                     film['trailer'],
                     film['title'],
                     theater_url,
-                    theater)
+                    theater))
             elif len(english_times):
                 english_time = english_times[0]['Times']
-                todays_movies_html += '<p><b><a href="{}">{} </a>@ <a href="{}">{} </a></b></p>'.format(
+                todays_movies_html.append('<p><b><a href="{}">{} </a>@ <a href="{}">{} </a></b></p>'.format(
                     film['trailer'],
                     film['title'],
                     theater_url,
-                    theater)
+                    theater))
                 body = create_email_text(film, english_times, ratings, theater_html)
                 todays_movies[film['title']] = body
     edit_account = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
     all_bodies = [v for k, v in todays_movies.items()]
-    return '<br/>***   ***<br/>'.join(all_bodies) + edit_account, todays_movies_html, len(todays_movies)
+    return '<br/>***   ***<br/>'.join(all_bodies) + edit_account, "".join(sorted(todays_movies_html,
+                                                                                 key=find_first_letter)), len(todays_movies)
 
 
 def make_html_file(num_movies, _plural, _todays_movies_html, city):
