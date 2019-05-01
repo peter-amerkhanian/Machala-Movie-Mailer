@@ -1,7 +1,7 @@
 import smtplib
 from datetime import datetime
 from machala_movie_mailer import \
-    get_movies, make_email_body, check_for_plural, make_final_email_objects, init_email, make_html_file
+    get_movies, make_email_body, check_for_plural_movie_count, make_final_email_objects, init_email, make_html_file
 
 
 if __name__ == "__main__":
@@ -9,7 +9,7 @@ if __name__ == "__main__":
         all_theaters = list(get_movies(city))
         body, movies_html, num_movies_playing = make_email_body(all_theaters)
         if num_movies_playing:
-            plural = check_for_plural(num_movies_playing)
+            plural = check_for_plural_movie_count(num_movies_playing)
             msgs = make_final_email_objects(num_movies_playing, plural, body, city=city)
             with smtplib.SMTP('smtp.gmail.com', port=587) as server:
                 init_email(server)
