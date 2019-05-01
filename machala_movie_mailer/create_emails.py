@@ -4,15 +4,11 @@ from machala_movie_mailer.email_tools import create_email_text, create_email_obj
 from machala_movie_mailer.get_users import get_user_addresses
 
 
-def find_first_letter(string):
-    return string.split('>')[3]
-
-
 def make_email_body(theaters):
     """
     turn a list of html for the movies playing at a theater into the body
     of an email with just the english movies
-    :param _movies: list of BeautifulSoup objects
+    :param theaters: list of tuples, each containing a theater url, that theater's soup, and the movies at that theater
     :return: a string of today's movies, a string of html of today's movies, and how many movies
     """
     todays_movies = {}
@@ -48,7 +44,7 @@ def make_email_body(theaters):
     edit_account = '<p><br/><small><a href="https://machalamoviemailer.com/">*edit account*</a></small></p>'
     all_bodies = [v for k, v in todays_movies.items()]
     return ('<br/>***   ***<br/>'.join(all_bodies) + edit_account,
-            "".join(sorted(todays_movies_html, key=find_first_letter)),
+            "".join(sorted(todays_movies_html, key=lambda x: x.split('>')[3])),
             len(todays_movies))
 
 
@@ -66,17 +62,6 @@ def make_html_file(num_movies, _plural, _todays_movies_html, city):
         file.write(mail)
 
 
-def check_for_plural_movie_count(num_movies):
-    """
-    check for whether messages should have 'Movie' or 'Movies' in it
-    :param num_movies: int of how many movies are playing
-    :return: string, 'Movie' or 'Movies' depending on how many movies are playing
-    """
-    if num_movies > 1:
-        return "Movies"
-    return "Movie"
-
-
 def make_final_email_objects(num_movies_playing, plural, body, city):
     messages = []
     for to_address in get_user_addresses(city):
@@ -88,13 +73,13 @@ def make_final_email_objects(num_movies_playing, plural, body, city):
     return messages
 
 
-def init_email(srvr):
+def init_email(server):
     """
     initialize email server
-    :param srvr: an SMTP object
+    :param server: an SMTP object
     :return: void
     """
-    srvr.ehlo()
-    srvr.starttls()
-    srvr.ehlo()
-    srvr.login(email_login_user, email_login_password)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(email_login_user, email_login_password)

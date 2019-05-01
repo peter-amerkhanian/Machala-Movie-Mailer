@@ -5,10 +5,10 @@ def create_email_text(film, english_times, ratings, theater):
     """
     Create the body of the email
     :param film: dict that contains title, director, trailer
-    :param times: dict that contains language and times
+    :param english_times: dict that contains language and times for english times
     :param ratings: dict that contains rt and imdb ratings
     :param theater: string with theater name
-    :return: string that contians body of the email
+    :return: string that contains body of the email
     """
     html_bar = '<hr size="1" width="100" align="left"> '
     showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
