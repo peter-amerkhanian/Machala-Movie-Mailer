@@ -8,7 +8,6 @@ if __name__ == "__main__":
         all_theaters = list(get_movies(city))
         body, movies_html, num_movies_playing = make_email_body(all_theaters)
         if num_movies_playing:
-            # plural = check_for_plural_movie_count(num_movies_playing)
             plural = "Movies" if num_movies_playing > 1 else "Movie"
             msgs = make_final_email_objects(num_movies_playing, plural, body, city=city)
             with smtplib.SMTP('smtp.gmail.com', port=587) as server:
