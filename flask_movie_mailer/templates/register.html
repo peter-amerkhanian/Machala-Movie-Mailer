@@ -1,5 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="container">
+    <div class="block text-center">
+    <div class="alert alert-success mb-3" style="margin: auto 20% auto 20%;" role="alert">
+  <p><small>Everyday, <b>Machala Movie Mailer</b> will scan the movies at your local theater.<br/>
+      If any are playing in <b>English</b>, you'll get <b>an email first thing in the morning</b></small></p>
+  <hr>
+</div>
+    </div>
+</div>
     <div class="container">
         <form method="POST" action="" class="justify-content-center">
             {{ form.hidden_tag() }}
