@@ -4,7 +4,7 @@ from machala_movie_mailer import get_movies, make_email_body, make_final_email_o
 
 
 if __name__ == "__main__":
-    for city in ['Machala', 'Cuenca', 'Ibarra', 'Guayaquil']:
+    for city in ['Machala', 'Cuenca', 'La Libertad', 'Latacunga', 'Riobamba', 'Ibarra', 'Guayaquil', 'Quito']:
         all_theaters = list(get_movies(city))
         body, movies_html, num_movies_playing = make_email_body(all_theaters)
         if num_movies_playing:

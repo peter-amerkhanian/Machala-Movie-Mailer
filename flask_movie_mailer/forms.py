@@ -20,10 +20,13 @@ class RegistrationForm(FlaskForm):
                         render_kw={"placeholder": "Email"})
     location = SelectField('Location',
                            choices=[("", "-Select City-"),
-                                    ("Machala", "Machala"),
                                     ("Cuenca", "Cuenca"),
                                     ("Guayaquil", "Guayaquil"),
                                     ("Ibarra", "Ibarra"),
+                                    ("La Libertad", "La Libertad"),
+                                    ("Latacunga", "Latacunga"),
+                                    ("Machala", "Machala"),
+                                    ("Riobamba", "Riobamba"),
                                     ("Quito", "Quito")],
                            validators=[DataRequired()])
     submit = SubmitField('Sign Up')
