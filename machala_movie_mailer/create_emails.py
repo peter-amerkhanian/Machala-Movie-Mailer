@@ -2,6 +2,7 @@ from machala_movie_mailer.retrieve_info import get_movie_info, get_show_times, g
 from machala_movie_mailer.private_variables import from_address, email_login_password, email_login_user
 from machala_movie_mailer.email_tools import create_email_text, create_email_object
 from machala_movie_mailer.get_users import get_user_addresses
+import os
 
 
 def make_email_body(theaters):
@@ -58,7 +59,11 @@ def make_html_file(num_movies, _plural, _todays_movies_html, city):
     """
     mail = "<h5><cite>{} English {} Playing Today: </cite></h5> <p>{}</p> <p></p>".format(
         num_movies, _plural, _todays_movies_html)
-    with open(r"flask_movie_mailer/static/today_message_{}.txt".format(city), "w") as file:
+    relative_path = os.path.join("Machala_Movie_Mailer",
+                                 "flask_movie_mailer",
+                                 "static",
+                                 "today_message_{}.txt".format(city))
+    with open(os.path.abspath(relative_path), "w") as file:
         file.write(mail)
 
 

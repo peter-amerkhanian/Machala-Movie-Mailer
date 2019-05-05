@@ -11,7 +11,7 @@ def create_email_text(film, english_times, ratings, theater):
     :return: string that contains body of the email
     """
     html_bar = '<hr size="1" width="100" align="left"> '
-    showtimes = "<br/>".join(["{}: {}".format(time['Language'], time['Times']) for time in english_times])
+    showtimes = "<br/>".join(["{}: {}".format(time['Language'].replace(',', ', '), time['Times']) for time in english_times])
     msg = '<p>Title: <b>{}</b><br/>Director: {}<br/>IMDB Score: {}/10<br/>Trailer: {}</p> {}'.format(film['title'],
                                                                                                      film['director'],
                                                                                                      ratings['imdb'],
